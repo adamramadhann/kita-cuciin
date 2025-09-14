@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -23,7 +23,11 @@ import {
   Star,
   Instagram,
   MessageCircle,
+  Car,
+  Package,
+  ChartBarIncreasing,
 } from "lucide-react"
+import { MapContainer, Marker, Popup, TileLayer, useMapEvent, useMap } from "react-leaflet"
 
 // Header Component
 function Header() {
@@ -97,6 +101,9 @@ function Header() {
 
 // Hero Section Component
 function HeroSection() {
+  const waNumber = "62895405448445";
+  const waMessage = "Halo, saya ingin bertanya tentang jasa cuci nya";
+  const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
   return (
     <section
       id="beranda"
@@ -113,13 +120,28 @@ function HeroSection() {
               Rumah bersih, keluarga sehat!
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              <Button size="lg" className="text-lg px-8">
-                Konsultasi Gratis
-              </Button>
-              <Button variant="outline" size="lg" className="text-lg px-8 bg-transparent">
-                Lihat Layanan
-              </Button>
+            <div className="flex flex-col mb-10 gap-3">
+              {/* Tombol WhatsApp */}
+              <a
+                href={waLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 w-full"
+              >
+                <Phone className="w-5 h-5 mr-2" />
+                0895-4054-48445
+              </a>
+
+              {/* Tombol Instagram */}
+              <a
+                href="https://instagram.com/Kitacuciin7"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center border-2 border-pink-500 text-pink-600 hover:bg-pink-500 hover:text-white px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-transparent w-full"
+              >
+                <Instagram className="w-5 h-5 mr-2" />
+                Kitacuciin7
+              </a>
             </div>
 
             <div className="grid grid-cols-3 gap-6">
@@ -291,68 +313,54 @@ function InfoSection() {
               </div>
 
               <CardContent className="p-6 md:p-8 relative z-10">
-                <div className="text-center mb-8">
-                  <div className="inline-block relative">
-                    <h3 className="text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-yellow-500 via-yellow-400 to-amber-500 bg-clip-text mb-2">
-                      PROSES PENCUCIAN
-                    </h3>
-                    <div className="w-full h-1 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full"></div>
-                  </div>
-                  <Badge className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-6 py-2 rounded-full mt-4 shadow-lg">
-                    Dengan metode wet clean extraction
-                  </Badge>
-                </div>
+              <div className="text-center mb-8">
+                <h3 className="text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-amber-400 to-yellow-500 bg-clip-text mb-3">
+                  PROSES PENCUCIAN
+                </h3>
+                <div className="w-20 h-1 bg-gradient-to-r from-amber-400 to-yellow-500 rounded-full mx-auto mb-4"></div>
+              </div>
+
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                   {[
-                    { step: 1, title: "Vakum Debu", icon: "🌪️", bg: "from-blue-500 to-blue-600" },
-                    { step: 5, title: "Pembilasan", icon: "💧", bg: "from-cyan-500 to-blue-500" },
-                    { step: 2, title: "Pencucian", icon: "🧽", bg: "from-indigo-500 to-blue-600" },
-                    { step: 6, title: "Extrak Sisa Noda", icon: "✨", bg: "from-purple-500 to-indigo-600" },
-                    { step: 3, title: "Vakum Noda", icon: "🔧", bg: "from-blue-600 to-indigo-600" },
-                    { step: 7, title: "Pengeringan", icon: "☀️", bg: "from-yellow-500 to-orange-500" },
-                    { step: 4, title: "Penetralan", icon: "🧪", bg: "from-green-500 to-blue-500" },
-                    { step: 8, title: "Bersih & Wangi", icon: "🌸", bg: "from-pink-500 to-purple-500" },
+                    { step: 1, title: "Vakum Debu", icon: "🌪️" },
+                    { step: 2, title: "Pencucian", icon: "🧽" },
+                    { step: 3, title: "Vakum Noda", icon: "🔧" },
+                    { step: 4, title: "Penetralan", icon: "🧪" },
+                    { step: 5, title: "Pembilasan", icon: "💧" },
+                    { step: 6, title: "Extrak Sisa Noda", icon: "✨" },
+                    { step: 7, title: "Pengeringan", icon: "☀️" },
+                    { step: 8, title: "Bersih & Wangi", icon: "🌸" },
                   ].map((item, index) => (
                     <div
                       key={index}
-                      className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-white to-gray-50 border border-gray-200 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+                      className="group relative overflow-hidden rounded-xl border border-gray-100 hover:border-blue-500 transition-all duration-300 hover:shadow-lg"
                     >
-                      {/* Background gradient overlay */}
-                      <div
-                        className={`absolute inset-0 bg-gradient-to-r ${item.bg} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
-                      ></div>
-
-                      <div className="relative p-4 flex items-center gap-4">
-                        <div
-                          className={`w-12 h-12 bg-gradient-to-r ${item.bg} text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg`}
-                        >
+                      <div className="relative p-6 flex items-center gap-4">
+                        {/* Step Number */}
+                        <div className="w-12 h-12 border-2 border-gray-300 group-hover:border-blue-500 text-gray-700 rounded-full flex items-center justify-center font-semibold text-base transition-colors duration-300">
                           {item.step}
                         </div>
+
+                        {/* Content */}
                         <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="text-xl">{item.icon}</span>
-                            <span className="font-semibold text-gray-800 text-sm md:text-base group-hover:text-blue-700 transition-colors">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-lg">{item.icon}</span>
+                            <span className="font-medium text-gray-900 text-base group-hover:text-blue-600 transition-colors">
                               {item.title}
                             </span>
-                          </div>
-                          <div className="w-full h-1 bg-gray-200 rounded-full overflow-hidden">
-                            <div
-                              className={`h-full bg-gradient-to-r ${item.bg} transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500`}
-                            ></div>
                           </div>
                         </div>
                       </div>
                     </div>
                   ))}
-                </div>
-
+                </div> 
                 {/* Process Flow Indicator */}
                 <div className="mt-8 text-center">
                   <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-100 to-cyan-100 px-6 py-3 rounded-full">
                     <Sparkles className="w-5 h-5 text-blue-600" />
-                    <span className="text-blue-800 font-medium text-sm">
-                      8 Langkah Profesional untuk Hasil Maksimal
+                    <span className="text-blue-800 font-medium text-sm"> 
+                      8 Langkah Profesional untuk Hasil Maksimal, Dengan metode wet clean extraction
                     </span>
                     <Sparkles className="w-5 h-5 text-blue-600" />
                   </div>
@@ -431,6 +439,9 @@ function InfoSection() {
 
 // Pricing Section Component
 function PricingSection() {
+  const waNumber = "62895405448445";
+  const waMessage = "Halo, saya ingin bertanya tentang jasa cuci nya";
+  const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
   const pricingData = {
     kasur: [
       { size: "Kasur 200", price: "275k" },
@@ -536,147 +547,99 @@ function PricingSection() {
 
   return (
     <section className="py-16 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
-            <Sparkles className="w-4 h-4" />
-            Daftar Harga Terbaru
-          </div>
-          <h2 className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-blue-900 via-blue-700 to-indigo-600 bg-clip-text text-transparent mb-4">
-            KITA CUCIIN PRICE LIST 2025
-          </h2>
-          <p className="text-gray-600 italic text-base md:text-lg">Harga sudah termasuk cuci & vakum</p>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mt-4 rounded-full"></div>
+    <div className="container mx-auto px-4">
+      {/* Heading */}
+      <div className="text-center mb-12">
+        <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
+          <Sparkles className="w-4 h-4" />
+          Daftar Harga Terbaru
         </div>
-
-        <div className="hidden lg:block">
-          {/* Desktop Grid Layout - All visible at once */}
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 max-w-7xl mx-auto">
-            {categories.map((category, categoryIndex) => {
-              const colorClasses = getColorClasses(category.color)
-
-              return (
-                <div
-                  key={categoryIndex}
-                  className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 h-fit"
-                >
-                  <div
-                    className={`bg-gradient-to-r ${colorClasses.gradient} p-4`}
-                    style={{ backgroundColor: colorClasses.bg }}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="text-xl md:text-2xl">{category.icon}</div>
-                      <div>
-                        <h3 className="text-lg md:text-xl font-bold text-white" style={{ color: "#ffffff" }}>
-                          {category.name}
-                        </h3>
-                        <p className="text-white/80 text-xs md:text-sm" style={{ color: "rgba(255, 255, 255, 0.8)" }}>
-                          {category.note}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Items List - Fixed height for desktop */}
-                  <div className="divide-y divide-gray-100 max-h-96 overflow-y-auto">
-                    {category.items.map((item, itemIndex) => (
-                      <div
-                        key={itemIndex}
-                        className="flex items-center justify-between p-3 md:p-4 hover:bg-gray-50 transition-colors"
-                      >
-                        <div className="flex-1 min-w-0 pr-4">
-                          <h4 className="font-medium text-gray-900 text-sm md:text-base truncate">{item.name}</h4>
-                        </div>
-                        <div className="flex-shrink-0">
-                          <span className="text-base md:text-lg font-bold text-red-600">{item.price}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Mobile Layout - Scrollable list */}
-        <div className="lg:hidden max-w-4xl mx-auto">
-          <div className="space-y-6">
-            {categories.map((category, categoryIndex) => {
-              const colorClasses = getColorClasses(category.color)
-
-              return (
-                <div
-                  key={categoryIndex}
-                  className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100"
-                >
-                  <div
-                    className={`bg-gradient-to-r ${colorClasses.gradient} p-4`}
-                    style={{ backgroundColor: colorClasses.bg }}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="text-xl md:text-2xl">{category.icon}</div>
-                      <div>
-                        <h3 className="text-lg md:text-xl font-bold text-white" style={{ color: "#ffffff" }}>
-                          {category.name}
-                        </h3>
-                        <p className="text-white/80 text-xs md:text-sm" style={{ color: "rgba(255, 255, 255, 0.8)" }}>
-                          {category.note}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Items List */}
-                  <div className="divide-y divide-gray-100 max-h-80 overflow-y-auto">
-                    {category.items.map((item, itemIndex) => (
-                      <div
-                        key={itemIndex}
-                        className="flex items-center justify-between p-3 md:p-4 hover:bg-gray-50 transition-colors"
-                      >
-                        <div className="flex-1 min-w-0 pr-4">
-                          <h4 className="font-medium text-gray-900 text-sm md:text-base truncate">{item.name}</h4>
-                        </div>
-                        <div className="flex-shrink-0">
-                          <span className="text-base md:text-lg font-bold text-red-600">{item.price}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Contact Section */}
-        <div className="mt-12 text-center">
-          <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 max-w-2xl mx-auto">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <Star className="w-5 h-5 text-yellow-500 fill-current" />
-              <h3 className="text-lg md:text-xl font-bold text-gray-800">Hubungi Kami Sekarang</h3>
-              <Star className="w-5 h-5 text-yellow-500 fill-current" />
+        <h2 className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-blue-900 via-blue-700 to-indigo-600 bg-clip-text text-transparent mb-4">
+          KITA CUCIIN PRICE LIST 2025
+        </h2>
+        <p className="text-gray-600 italic text-base md:text-lg">Harga sudah termasuk cuci & vakum</p>
+        <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mt-4 rounded-full"></div>
+      </div>
+  
+      {/* Loop kategori */}
+      <div className="space-y-12 max-w-5xl mx-auto">
+        {categories.map((category, index) => (
+          <div key={index} className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+            {/* Header kategori */}
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-2xl">{category.icon}</span>
+              <h3 className="text-xl font-bold text-gray-800">{category.name}</h3>
             </div>
-            <p className="text-gray-600 mb-6 text-sm md:text-base">
-              Dapatkan layanan cuci terbaik untuk furniture Anda
-            </p>
-            <div className="flex flex-col gap-3">
-              <Button className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 w-full">
+            {category.note && (
+              <p className="text-sm text-gray-500 mb-6">{category.note}</p>
+            )} 
+            {/* Table harga */}
+            <div className="overflow-x-auto">
+              <table className="w-full border border-gray-200 rounded-lg overflow-hidden">
+                <thead>
+                  <tr className="bg-gradient-to-r from-blue-700 to-indigo-600 text-white">
+                    <th className="px-4 py-2 text-left font-medium">No</th>
+                    <th className="px-4 py-2 text-left font-medium">Nama Barang / Barang Yang Dicuciin</th>
+                    <th className="px-4 py-2 text-right font-medium">Harga</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {category.items.map((item, i) => (
+                    <tr
+                      key={i}
+                      className="border-t border-gray-200 hover:bg-gray-50 transition-colors"
+                    >
+                      <td className="px-4 py-2 text-gray-600">{i + 1}</td>
+                      <td className="px-4 py-2 text-gray-800">{item.name}</td>
+                      <td className="px-4 py-2 text-right font-semibold text-red-600">{item.price}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ))}
+      </div>
+  
+      {/* Contact Section */}
+      <div className="mt-12 text-center">
+        <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 max-w-2xl mx-auto">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Star className="w-5 h-5 text-yellow-500 fill-current" />
+            <h3 className="text-lg md:text-xl font-bold text-gray-800">Hubungi Kami Sekarang</h3>
+            <Star className="w-5 h-5 text-yellow-500 fill-current" />
+          </div>
+          <p className="text-gray-600 mb-6 text-sm md:text-base">
+            Dapatkan layanan cuci terbaik untuk furniture Anda
+          </p>
+          <div className="flex flex-col gap-3">
+              {/* Tombol WhatsApp */}
+              <a
+                href={waLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 w-full"
+              >
                 <Phone className="w-5 h-5 mr-2" />
                 0895-4054-48445
-              </Button>
-              <Button
-                variant="outline"
-                className="border-2 border-pink-500 text-pink-600 hover:bg-pink-500 hover:text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-transparent w-full"
+              </a>
+
+              {/* Tombol Instagram */}
+              <a
+                href="https://instagram.com/Kitacuciin7"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center border-2 border-pink-500 text-pink-600 hover:bg-pink-500 hover:text-white px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-transparent w-full"
               >
                 <Instagram className="w-5 h-5 mr-2" />
                 Kitacuciin7
-              </Button>
-            </div>
+              </a>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
+  
   )
 }
 
@@ -691,12 +654,40 @@ function ServicesSection() {
       features: ["Deep cleaning", "Anti bakteri", "Cepat kering", "Wangi tahan lama"],
     },
     {
-      id: "ac",
-      icon: Wind,
-      title: "Service AC Lengkap",
-      description: "Pembersihan dan perawatan AC untuk performa optimal dan udara bersih",
-      features: ["Bongkar pasang", "Cuci evaporator", "Isi freon", "Garansi service"],
+      id: "kasur",
+      icon: Bed,
+      title: "Cuci Kasur & Dipan",
+      description: "Membersihkan kasur dan dipan dari debu, tungau, serta bakteri untuk tidur lebih sehat",
+      features: ["Anti tungau", "Vacuum steril", "Steam cleaning", "Wangi segar"],
     },
+    {
+      id: "mobil",
+      icon: Car,
+      title: "Cuci Interior Mobil",
+      description: "Detailing interior mobil termasuk jok, dashboard, door trim, dan karpet",
+      features: ["Steam cleaning", "Anti bakteri", "Leather care", "Cepat kering"],
+    },
+    {
+      id: "aksesoris",
+      icon: Package,
+      title: "Cuci Aksesoris Rumah Tangga",
+      description: "Perawatan berbagai aksesoris rumah tangga dari karpet, gorden, hingga stroller",
+      features: ["Stain removal", "Deodorizer", "Pick up service", "Color protection"],
+    },
+    {
+      id: "kursi",
+      icon: ChartBarIncreasing,
+      title: "Cuci Kursi Kantor & Makan",
+      description: "Membersihkan kursi kantor dan kursi makan agar tetap nyaman dan higienis",
+      features: ["Vacuum steril", "Anti noda", "Cepat kering", "Wangi segar"],
+    },
+    // {
+    //   id: "ac",
+    //   icon: Wind,
+    //   title: "Service AC Lengkap",
+    //   description: "Pembersihan dan perawatan AC untuk performa optimal dan udara bersih",
+    //   features: ["Bongkar pasang", "Cuci evaporator", "Isi freon", "Garansi service"],
+    // },
     {
       id: "karpet",
       icon: Droplets,
@@ -704,14 +695,8 @@ function ServicesSection() {
       description: "Layanan pembersihan karpet dan gorden dengan hasil seperti baru",
       features: ["Stain removal", "Deodorizer", "Color protection", "Pick up service"],
     },
-    {
-      id: "paket",
-      icon: Zap,
-      title: "Paket Hemat Kombo",
-      description: "Kombinasi layanan cuci sofa + service AC dengan harga spesial",
-      features: ["Sofa + AC", "Diskon 20%", "Free konsultasi", "Jadwal fleksibel"],
-    },
   ]
+  
 
   return (
     <section id="layanan" className="py-16 bg-card/50">
@@ -725,7 +710,7 @@ function ServicesSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, index) => (
-            <Card key={index} className="hover-lift border-border/50 bg-background">
+            <Card key={index} className="hover-lift relative h-[450px] border-border/50 bg-background">
               <CardHeader className="text-center">
                 <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <service.icon className="w-8 h-8 text-primary" />
@@ -742,10 +727,10 @@ function ServicesSection() {
                     </li>
                   ))}
                 </ul>
-                <div className="text-center">
-                  <Button className="w-full text-sm">Lihat Detail</Button>
-                </div>
               </CardContent>
+                <div className="text-center absolute bottom-5 left-1/2 -translate-x-1/2">
+                  <Button className="w-full px-20 text-sm">Lihat Detail</Button>
+                </div>
             </Card>
           ))}
         </div>
@@ -758,6 +743,7 @@ function ServicesSection() {
 function TestimonialsSection() {
   const testimonials = [
     {
+      inisial: "IS",
       name: "Ibu Sarah",
       location: "Jakarta Selatan",
       rating: 5,
@@ -766,14 +752,16 @@ function TestimonialsSection() {
       service: "Cuci Sofa",
     },
     {
+      inisial: "BA",
       name: "Bapak Ahmad",
       location: "Tangerang",
       rating: 5,
       comment:
-        "AC di rumah sudah lama tidak dingin, setelah di service sama Kita Cuciin jadi dingin lagi dan hemat listrik. Recommended!",
-      service: "Service AC",
+        "sangat di rekomendasikan karena sofa di rumah saya jadi jauh lebih bersih bahkan hampir terlihatat baru dam wangi yang menghidupkan ruangan saya",
+      service: "Cuci Sofa",
     },
     {
+      inisial: "IM",
       name: "Ibu Maya",
       location: "Bekasi",
       rating: 5,
@@ -795,15 +783,16 @@ function TestimonialsSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="bg-background border-border/50 hover-lift">
+            <Card key={index} className="bg-background h-[380px] relative border-border/50 hover-lift">
               <CardContent className="p-6">
+                <span className="w-14 h-14 text-base mb-3 flex items-center justify-center rounded-full bg-blue-400 text-white" >{testimonial.inisial}</span>
                 <div className="flex items-center gap-1 mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <Star key={i} className="w-4 h-4 text-yellow-500 fill-current" />
                   ))}
                 </div>
                 <p className="text-muted-foreground mb-4 text-sm md:text-base italic">"{testimonial.comment}"</p>
-                <div className="border-t border-border pt-4">
+                <div className="absolute bottom-5 w-full pt-4">
                   <p className="font-semibold text-foreground text-sm md:text-base">{testimonial.name}</p>
                   <p className="text-muted-foreground text-xs md:text-sm">{testimonial.location}</p>
                   <Badge variant="secondary" className="mt-2 text-xs">
@@ -817,30 +806,176 @@ function TestimonialsSection() {
       </div>
     </section>
   )
-}
+} 
+
+ 
+// import "leaflet/dist/leaflet.css";
+// import L from "leaflet";
+
+// delete (L.Icon.Default.prototype as any)._getIconUrl;
+// L.Icon.Default.mergeOptions({
+//   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+//   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+//   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+// });
+
+// function ContactSection() {
+//   const [position, setPosition] = useState<any>(null);
+//   const [position2, setPosition2] = useState<any>(null);
+//   const [position3, setPosition3] = useState<any>(null);
+
+//   const dataContack = [
+//     {
+//       icons: <Phone className="w-6 h-6 text-primary" />,
+//       title: "Telepon & WhatsApp",
+//       subTitle: "0895-4054-48445",
+//       paragraft: "Tersedia 24/7 untuk konsultasi",
+//       href: "https://wa.me/62895405448445",
+//     },
+//     {
+//       icons: <Instagram className="w-6 h-6 text-primary" />,
+//       title: "Instagram",
+//       subTitle: "@kitacuciin7",
+//       paragraft: "Follow untuk tips & promo terbaru",
+//       href: "https://instagram.com/kitacuciin7",
+//     },
+//     {
+//       icons: <MapPin className="w-6 h-6 text-primary" />,
+//       title: "Area Layanan",
+//       subTitle: "Jakarta, Bogor, Depok, Tangerang, Bekasi",
+//       paragraft: "Melayani area Jabodetabek",
+//       href: "https://maps.google.com/?q=Jakarta",
+//     },
+//   ];
+
+//   return (
+//     <section id="kontak" className="py-16 bg-background">
+//       <div className="container mx-auto px-4">
+//         {/* Header */}
+//         <div className="text-center mb-12">
+//           <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-4">
+//             Hubungi Kami
+//           </h2>
+//           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
+//             Siap melayani kebutuhan pembersihan Anda dengan layanan terbaik
+//           </p>
+//         </div>
+
+//         {/* Konten */}
+//         <div className="flex flex-col lg:flex-row items-center gap-10">
+//           {/* Maps */} 
+
+//             {/* Custom */}
+//             <div className="shadow-md flex-1 rounded-lg overflow-hidden"> 
+//               <MapContainer
+//                 center={[-6.4015, 106.7934]}
+//                 zoom={12}
+//                 scrollWheelZoom={false}
+//                 style={{ height: "380px", width: "100%" }}
+//               >
+//                 <TileLayer
+//                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles courtesy of CartoDB'
+//                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+//                 />
+//                 {/* <MapCustom /> */}
+//                 {position3 && (
+//                   <Marker position={[position3.lat, position3.lng]}>
+//                     <Popup>Titik di Indonesia</Popup>
+//                   </Marker>
+//                 )}
+//               </MapContainer>
+//             </div> 
+
+//           {/* Contact Info */}
+//           <div className="flex-1">
+//             <div className="space-y-6 w-full">
+//               {dataContack.map((val, i) => (
+//                 <div
+//                   key={i}
+//                   className="flex h-[110px] py-3 items-start gap-4 shadow-md rounded-lg w-full hover:shadow-lg transition"
+//                 >
+//                   <div className="w-20 h-full bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+//                     {val.icons}
+//                   </div>
+//                   <div>
+//                     <h3 className="font-semibold text-foreground mb-2">
+//                       {val.title}
+//                     </h3>
+//                     <a
+//                       href={val.href}
+//                       target="_blank"
+//                       rel="noopener noreferrer"
+//                       className="text-primary hover:underline"
+//                     >
+//                       {val.subTitle}
+//                     </a>
+//                     <p className="text-sm text-muted-foreground">
+//                       {val.paragraft}
+//                     </p>
+//                   </div>
+//                 </div>
+//               ))}
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
+
+ 
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+
+// Perbaikan untuk icon marker Leaflet
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
 function ContactSection() {
-  const dataContack = [
+  const [isMounted, setIsMounted] = useState(false);
+  const mapRef = useRef<any>(null);
+
+  // Pastikan komponen sudah dimount sebelum render peta
+  useEffect(() => {
+    if (!isMounted) return;
+
+    const handleResize = () => {
+      setTimeout(() => {
+        if (mapRef.current) {
+          mapRef.current.invalidateSize();
+        }
+      }, 200);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isMounted]);
+
+  const dataContact = [
     {
       icons: <Phone className="w-6 h-6 text-primary" />,
       title: "Telepon & WhatsApp",
       subTitle: "0895-4054-48445",
       paragraft: "Tersedia 24/7 untuk konsultasi",
-      href: "https://wa.me/62895405448445", // link ke WhatsApp
+      href: "https://wa.me/62895405448445",
     },
     {
       icons: <Instagram className="w-6 h-6 text-primary" />,
       title: "Instagram",
       subTitle: "@kitacuciin7",
       paragraft: "Follow untuk tips & promo terbaru",
-      href: "https://instagram.com/kitacuciin7", // link ke IG
+      href: "https://instagram.com/kitacuciin7",
     },
     {
       icons: <MapPin className="w-6 h-6 text-primary" />,
       title: "Area Layanan",
       subTitle: "Jakarta, Bogor, Depok, Tangerang, Bekasi",
       paragraft: "Melayani area Jabodetabek",
-      href: "https://maps.google.com/?q=Jakarta", // link ke Google Maps
+      href: "https://maps.google.com/?q=Jakarta",
     },
   ];
 
@@ -858,11 +993,33 @@ function ContactSection() {
         </div>
 
         {/* Konten */}
-        <div className="flex gap-10">
-          <div className="flex-1 h-full"></div>
-          <div className="flex-1">
+        <div className="flex flex-col lg:flex-row items-center gap-10">
+          {/* Maps */} 
+          <div className="w-full lg:flex-1 h-[380px] rounded-lg overflow-hidden shadow-md">
+            {/* {isMounted && ( */}
+              <MapContainer
+                ref={mapRef}
+                center={[-6.4015, 106.7934]}
+                zoom={12}
+                scrollWheelZoom={false}
+                style={{ height: "100%", width: "100%" }}
+                // className="z-0"
+              >
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles courtesy of CartoDB'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Marker position={[-6.4015, 106.7934]}>
+                  <Popup>Lokasi Kami</Popup>
+                </Marker>
+              </MapContainer>
+            {/* )} */}
+          </div>
+
+          {/* Contact Info */}
+          <div className="w-full lg:flex-1">
             <div className="space-y-6 w-full">
-              {dataContack.map((val, i) => (
+              {dataContact.map((val, i) => (
                 <div
                   key={i}
                   className="flex h-[110px] py-3 items-start gap-4 shadow-md rounded-lg w-full hover:shadow-lg transition"
@@ -895,6 +1052,7 @@ function ContactSection() {
     </section>
   );
 }
+
 
 // Footer Component
 function Footer() {
@@ -947,6 +1105,9 @@ function Footer() {
 // WhatsApp Button Component
 function WhatsAppButton() {
   const [showTooltip, setShowTooltip] = useState(false)
+  const waNumber = "62895405448445";
+  const waMessage = "Halo, saya ingin bertanya tentang jasa cuci nya";
+  const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
@@ -955,7 +1116,7 @@ function WhatsAppButton() {
           className="bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 animate-pulse hover:animate-none"
           onMouseEnter={() => setShowTooltip(true)}
           onMouseLeave={() => setShowTooltip(false)}
-          onClick={() => window.open("https://wa.me/6289540544845", "_blank")}
+          onClick={() => window.open(waLink, "_blank")}
         >
           <MessageCircle className="w-6 h-6" />
         </button>
