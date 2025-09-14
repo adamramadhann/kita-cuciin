@@ -1,11 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-// import ContactSection from "@/components/shared/ContactSection"
-
-const ContactSection = dynamic(() => import("@/components/shared/ContactSection"), {
-  ssr: false,
-});
+import ContactSection from "@/components/shared/ContactSection"
 import InfoSection from "@/components/shared/InfoSection"
 import Header from "@/components/shared/Header"
 import WhatsAppButton from "@/components/shared/WhatsAppButton"
