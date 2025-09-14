@@ -466,7 +466,7 @@ function TestimonialsSection() {
                     <Star key={i} className="w-4 h-4 text-yellow-500 fill-current" />
                   ))}
                 </div>
-                <p className="text-muted-foreground mb-4 text-sm md:text-base italic">"{testimonial.comment}"</p>
+                <p className="text-muted-foreground mb-4 text-sm md:text-base italic">{testimonial.comment}</p>
                 <div className="absolute bottom-5 w-full pt-4">
                   <p className="font-semibold text-foreground text-sm md:text-base">{testimonial.name}</p>
                   <p className="text-muted-foreground text-xs md:text-sm">{testimonial.location}</p>
