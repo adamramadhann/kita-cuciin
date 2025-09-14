@@ -1,7 +1,11 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import ContactSection from "@/components/shared/ContactSection"
+// import ContactSection from "@/components/shared/ContactSection"
+
+const ContactSection = dynamic(() => import("@/components/shared/ContactSection"), {
+  ssr: false,
+});
 import InfoSection from "@/components/shared/InfoSection"
 import Header from "@/components/shared/Header"
 import WhatsAppButton from "@/components/shared/WhatsAppButton"
@@ -29,6 +33,7 @@ import {
   ChartBarIncreasing,
 } from "lucide-react"
 import Image from "next/image" 
+import dynamic from "next/dynamic";
 
 // Hero Section Component
 function HeroSection() {
