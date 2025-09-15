@@ -7,92 +7,147 @@ import Link from "next/link"
 const serviceDetails = {
   sofa: {
     title: "Cuci Sofa Premium",
-    description: "Layanan pembersihan sofa profesional dengan teknologi steam cleaning terdepan",
+    description:
+      "Layanan pembersihan sofa berbagai jenis (sofa biasa, stool, bench, L, reclining, dll) agar lebih higienis, bebas tungau, dan kembali nyaman digunakan.",
     process: [
       "Inspeksi kondisi sofa dan jenis kain",
+      "Vacuum menyeluruh untuk debu dan kotoran",
       "Pre-treatment untuk noda membandel",
-      "Steam cleaning dengan suhu optimal",
+      "Pencucian dengan mesin ekstraksi & vakum",
       "Aplikasi anti bakteri dan deodorizer",
-      "Proses pengeringan cepat",
-      "Quality check dan finishing",
+      "Proses pengeringan optimal",
     ],
     benefits: [
-      "Menghilangkan 99.9% bakteri dan tungau",
-      "Warna kain kembali cerah",
-      "Tekstur sofa lebih lembut",
+      "Menghilangkan bakteri dan tungau",
+      "Warna kain lebih cerah",
+      "Sofa terasa lebih bersih dan lembut",
       "Aroma segar tahan lama",
       "Aman untuk anak dan hewan peliharaan",
     ],
-    pricing: "Mulai dari Rp 150.000 per seat",
+    pricing: "Mulai dari Rp 40.000 per seat",
+    beforeImage: "/images/sofa-before.png",
+    afterImage: "/images/sofa-after.png",
     duration: "2-3 jam per sofa",
   },
-  ac: {
-    title: "Service AC Lengkap",
-    description: "Perawatan menyeluruh AC untuk performa optimal dan udara bersih",
-    process: [
-      "Pembongkaran unit indoor AC",
-      "Pembersihan evaporator dan filter",
-      "Cuci kompresor dan kondensor",
-      "Pengecekan sistem kelistrikan",
-      "Pengisian freon sesuai spesifikasi",
-      "Test running dan quality assurance",
-    ],
-    benefits: [
-      "AC lebih dingin dan hemat listrik",
-      "Udara lebih bersih dan sehat",
-      "Mengurangi bau tidak sedap",
-      "Memperpanjang usia AC",
-      "Garansi service 30 hari",
-    ],
-    pricing: "Mulai dari Rp 100.000 per unit",
-    duration: "1-2 jam per unit",
-  },
+
   karpet: {
-    title: "Cuci Karpet & Gorden",
-    description: "Pembersihan profesional karpet dan gorden dengan hasil seperti baru",
+    title: "Cuci Karpet & Tangga",
+    description:
+      "Pembersihan karpet rumah dan karpet tangga secara mendalam agar kembali bersih, cerah, dan bebas tungau.",
     process: [
       "Vacuum menyeluruh untuk debu dan kotoran",
       "Pre-treatment noda dengan chemical khusus",
       "Deep cleaning dengan mesin ekstraksi",
-      "Aplikasi color protection",
-      "Deodorizer untuk aroma segar",
+      "Aplikasi anti bakteri dan deodorizer",
       "Proses pengeringan optimal",
     ],
     benefits: [
       "Warna karpet kembali cerah",
-      "Tekstur lembut seperti baru",
-      "Bebas dari tungau dan alergen",
-      "Tahan noda lebih lama",
-      "Layanan antar jemput gratis",
+      "Bebas tungau & debu halus",
+      "Aroma segar lebih lama",
+      "Tekstur karpet lembut kembali",
     ],
-    pricing: "Mulai dari Rp 80.000 per m²",
-    duration: "1-2 hari (termasuk pengeringan)",
+    pricing: "Mulai dari Rp 18.000 – Rp 20.000 per m²",
+    beforeImage: "/images/karpet-before.png",
+    afterImage: "/images/karpet-after.png",
+    duration: "1 hari (termasuk pengeringan)",
   },
-  paket: {
-    title: "Paket Hemat Kombo",
-    description: "Kombinasi layanan cuci sofa dan service AC dengan harga spesial",
+
+  kasur: {
+    title: "Cuci Kasur & Dipan",
+    description:
+      "Membersihkan kasur dan dipan dari debu, tungau, serta bakteri agar tidur lebih sehat dan nyaman.",
     process: [
-      "Konsultasi kebutuhan layanan",
-      "Penjadwalan yang fleksibel",
-      "Eksekusi layanan sofa dan AC bersamaan",
-      "Quality check menyeluruh",
-      "Garansi untuk kedua layanan",
-      "Follow up kepuasan pelanggan",
+      "Vacuum menyeluruh untuk debu dan tungau",
+      "Pre-treatment noda dengan chemical khusus",
+      "Pencucian dengan mesin ekstraksi",
+      "Aplikasi anti bakteri dan deodorizer",
+      "Proses pengeringan cepat",
     ],
     benefits: [
-      "Hemat hingga 20% dari harga normal",
-      "Satu kali kunjungan untuk dua layanan",
-      "Tim teknisi berpengalaman",
-      "Konsultasi gratis perawatan rutin",
-      "Prioritas booking untuk service berikutnya",
+      "Kasur lebih higienis dan bebas tungau",
+      "Tidur lebih sehat dan nyaman",
+      "Aroma segar lebih lama",
     ],
-    pricing: "Mulai dari Rp 200.000 (hemat 20%)",
-    duration: "3-4 jam untuk kedua layanan",
+    pricing: "Mulai dari Rp 95.000 – Rp 275.000",
+    beforeImage: "/images/mattress-before.png",
+    afterImage: "/images/mattress-after.png",
+    duration: "2-3 jam per kasur",
   },
-}
+
+  mobil: {
+    title: "Cuci Interior Mobil",
+    description:
+      "Detailing interior mobil termasuk jok, dashboard, door trim, plafon, dan karpet agar lebih bersih dan nyaman.",
+    process: [
+      "Vacuum menyeluruh untuk debu dan kotoran",
+      "Pembersihan jok & door trim",
+      "Deep cleaning dashboard & plafon",
+      "Pencucian karpet mobil",
+      "Aplikasi anti bakteri dan deodorizer",
+      "Proses pengeringan optimal",
+    ],
+    benefits: [
+      "Interior mobil lebih segar & higienis",
+      "Bebas debu & tungau",
+      "Aroma wangi lebih lama",
+    ],
+    pricing: "Mulai dari Rp 280.000 – Rp 450.000",
+    beforeImage: "/images/bangku-mobil-before.png",
+    afterImage: "/images/bangku-mobil-after.png",
+    duration: "3-4 jam per mobil",
+  },
+
+  aksesories: {
+    title: "Cuci Aksesoris Rumah Tangga",
+    description:
+      "Perawatan berbagai aksesoris rumah tangga mulai dari stroller, gorden, car seat, hingga bantal & guling.",
+    process: [
+      "Vacuum menyeluruh untuk debu dan kotoran",
+      "Pre-treatment noda dengan chemical khusus",
+      "Deep cleaning sesuai jenis bahan",
+      "Aplikasi anti bakteri dan deodorizer",
+      "Proses pengeringan optimal",
+    ],
+    benefits: [
+      "Aksesoris kembali bersih & higienis",
+      "Bebas tungau & kotoran",
+      "Aroma segar lebih lama",
+    ],
+    pricing: "Mulai dari Rp 7.000 – Rp 95.000 per item",
+    beforeImage: "/images/aksesories-before.png",
+    afterImage: "/images/aksesories-after.png",
+    duration: "1 hari (termasuk pengeringan)",
+  },
+
+  kursi: {
+    title: "Cuci Kursi Kantor & Makan",
+    description:
+      "Layanan pencucian kursi kantor dan kursi makan agar lebih higienis, bebas noda, dan nyaman digunakan kembali.",
+    process: [
+      "Vacuum menyeluruh untuk debu dan kotoran",
+      "Pre-treatment noda dengan chemical khusus",
+      "Deep cleaning dengan mesin ekstraksi",
+      "Aplikasi anti bakteri dan deodorizer",
+      "Proses pengeringan cepat",
+    ],
+    benefits: [
+      "Kursi lebih bersih & higienis",
+      "Bebas tungau & kotoran",
+      "Aroma segar lebih lama",
+    ],
+    pricing: "Rp 50.000 per kursi",
+    beforeImage: "/images/kursi-before.png",
+    afterImage: "/images/kursi-after.png",
+    duration: "2-3 jam per kursi",
+  },
+};
+
 
 export default function DetailPage({ params }: { params: { id: string } }) {
   const service = serviceDetails[params.id as keyof typeof serviceDetails]
+
+  console.log("ini data service detailny: ", service)
 
   if (!service) {
     notFound()
@@ -123,7 +178,7 @@ export default function DetailPage({ params }: { params: { id: string } }) {
               </CardHeader>
               <CardContent>
                 <img
-                  src="/images/mattress-before.png"
+                  src={service.beforeImage}
                   alt="Kondisi sebelum dibersihkan"
                   className="w-full h-64 object-cover rounded-lg"
                 />
@@ -138,7 +193,7 @@ export default function DetailPage({ params }: { params: { id: string } }) {
               </CardHeader>
               <CardContent>
                 <img
-                  src="/images/mattress-after.png"
+                   src={service.afterImage}
                   alt="Kondisi setelah dibersihkan"
                   className="w-full h-64 object-cover rounded-lg"
                 />
