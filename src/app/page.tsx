@@ -5,6 +5,7 @@ import ContactSection from "@/components/shared/ContactSection"
 import InfoSection from "@/components/shared/InfoSection"
 import Header from "@/components/shared/Header"
 import WhatsAppButton from "@/components/shared/WhatsAppButton"
+import CardDiskonHero from "@/components/shared/CardDiskonHero"
 import {
   Menu,
   X,
@@ -37,79 +38,106 @@ function HeroSection() {
   const waNumber = "62895405448445";
   const waMessage = "Halo, saya ingin bertanya tentang jasa cuci nya";
   const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
-  return (
-    <section
-      id="beranda"
-      className="pt-32 pb-24 bg-gradient-to-br from-background to-card min-h-screen flex items-center"
-    >
-      <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="animate-fade-in-up">
-            <h1 className="text-4xl lg:text-6xl font-bold text-foreground mb-6 text-balance">
-              Layanan Cuci <span className="text-primary">Sofa & AC</span> Profesional
-            </h1>
-            <p className="text-lg text-muted-foreground mb-8 text-pretty">
-              Dapatkan layanan pembersihan sofa dan AC terbaik dengan teknologi modern dan tenaga ahli berpengalaman.
-              Rumah bersih, keluarga sehat!
-            </p>
+  return ( 
+  <section
+  id="beranda"
+  className="relative pt-32 pb-24 min-h-screen flex items-center overflow-hidden"
+>
+  {/* Background Image */}
+  <div 
+    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+    style={{
+      backgroundImage: "url('/modern-clean-living-room-with-sofa-and-ac.png')"
+    }}
+  >
+    {/* Overlay untuk membuat teks lebih mudah dibaca */}
+    <div className="absolute inset-0 bg-gradient-to-r md:from-black/60 bg-black/30 md:via-black/30 to-transparent"></div>
+  </div>
 
-            <div className="flex flex-col mb-10 gap-3">
-              {/* Tombol WhatsApp */}
-              <a
-                href={waLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 w-full"
-              >
-                <Phone className="w-5 h-5 mr-2" />
-                0895-4054-48445
-              </a>
+  {/* Content */}
+  <div className="container mx-auto px-4 relative z-10">
+    <div className="max-w-4xl">
+      <div className="animate-fade-in-up">
+        <h1 className="text-4xl lg:text-6xl font-bold leading-tight text-white mb-6 drop-shadow-lg">
+          Sofa, kasur, karpet, hingga mobil lebih bersih & nyaman
+        </h1>
+        <p className="text-lg lg:text-xl text-white/90 mb-8 text-pretty drop-shadow-md max-w-2xl">
+          Layanan cuci profesional untuk rumah dan mobil Anda. Bersih, sehat, dan bebas tungau.
+        </p>
+        
+        <div className="flex flex-col sm:flex-row mb-10 gap-4 max-w-lg">
+          {/* Tombol WhatsApp */}
+          <a
+            href={waLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex-1"
+          >
+            <Phone className="w-5 h-5 mr-2" />
+            0895-4054-48445
+          </a>
 
-              {/* Tombol Instagram */}
-              <a
-                href="https://instagram.com/Kitacuciin7"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center border-2 border-pink-500 text-pink-600 hover:bg-pink-500 hover:text-white px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-transparent w-full"
-              >
-                <Instagram className="w-5 h-5 mr-2" />
-                Kitacuciin7
-              </a>
-            </div>
+          {/* Tombol Instagram */}
+          <a
+            href="https://instagram.com/Kitacuciin7"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center border-2 border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-white/10 backdrop-blur-sm flex-1"
+          >
+            <Instagram className="w-5 h-5 mr-2" />
+            Kitacuciin7
+          </a>
+        </div>
 
-            <div className="grid grid-cols-3 gap-6">
-              <div className="text-center">
-                <Sparkles className="w-8 h-8 text-primary mx-auto mb-2" />
-                <p className="text-sm font-medium">Hasil Maksimal</p>
-              </div>
-              <div className="text-center">
-                <Shield className="w-8 h-8 text-primary mx-auto mb-2" />
-                <p className="text-sm font-medium">Aman & Terpercaya</p>
-              </div>
-              <div className="text-center">
-                <Clock className="w-8 h-8 text-primary mx-auto mb-2" />
-                <p className="text-sm font-medium">Layanan Cepat</p>
-              </div>
-            </div>
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl">
+          <div className="text-center bg-gradient-to-b from-amber-500/20 to-amber-600/10 backdrop-blur-md rounded-2xl p-4 border border-amber-400/30 shadow-lg">
+            <Sparkles className="w-8 h-8 text-amber-300 mx-auto mb-2 drop-shadow-sm" />
+            <p className="text-sm font-medium text-white drop-shadow-sm">Hasil Maksimal</p>
           </div>
+          <div className="text-center bg-gradient-to-b from-blue-500/20 to-blue-600/10 backdrop-blur-md rounded-2xl p-4 border border-blue-400/30 shadow-lg">
+            <Shield className="w-8 h-8 text-blue-300 mx-auto mb-2 drop-shadow-sm" />
+            <p className="text-sm font-medium text-white drop-shadow-sm">Aman & Terpercaya</p>
+          </div>
+          <div className="text-center bg-gradient-to-b from-emerald-500/20 to-emerald-600/10 backdrop-blur-md rounded-2xl p-4 border border-emerald-400/30 shadow-lg">
+            <Clock className="w-8 h-8 text-emerald-300 mx-auto mb-2 drop-shadow-sm" />
+            <p className="text-sm font-medium text-white drop-shadow-sm">Layanan Cepat</p>
+          </div>
+        </div>
+      </div>
 
-          <div className="relative animate-float">
-            <div className="aspect-square relative bg-gradient-to-br from-primary/10 to-secondary/10 rounded-3xl p-8">
-              <Image
-                fill
-                src="/modern-clean-living-room-with-sofa-and-ac.png"
-                alt="Ruang tamu bersih dengan sofa dan AC"
-                className="w-full h-full object-cover rounded-2xl"
-              />
+      {/* Floating Cards - Desktop */}
+      <div className="hidden lg:block">
+        {/* Floating Badge */}
+        {/* <div className="absolute bottom-8 right-8 bg-gradient-to-br from-slate-700/90 to-slate-800/90 text-white p-4 rounded-2xl shadow-xl animate-bounce backdrop-blur-md border border-slate-600/30">
+          <p className="text-sm font-medium">100% Puas</p>
+          <p className="text-xs opacity-90">Garansi Kualitas</p>
+        </div> */}
+
+        {/* Discount Card */} 
+        <div className="absolute top-1/2 right-8 transform -translate-y-1/2 bg-gradient-to-br from-orange-500/95 to-red-500/95 text-white p-6 rounded-3xl shadow-2xl md:animate-bounce max-w-xs backdrop-blur-sm border border-orange-400/30">
+          <div className="text-center">
+            <div className="bg-gradient-to-r from-yellow-300 to-yellow-400 text-orange-800 text-xs font-bold px-3 py-1 rounded-full mb-3 inline-block shadow-sm">
+              PROMO SPESIAL
             </div>
-            <div className="absolute -bottom-6 -right-6 bg-primary text-primary-foreground p-4 rounded-2xl shadow-lg">
-              <p className="text-sm font-medium">100% Puas</p>
-              <p className="text-xs opacity-90">Garansi Kualitas</p>
+            <div className="text-3xl font-bold mb-2 drop-shadow-lg">10% OFF</div>
+            <div className="text-sm opacity-90 mb-3 drop-shadow-sm">
+              min pencucian Rp.350.000
+            </div>
+            <div className="text-xs bg-white/20 backdrop-blur-sm rounded-lg p-2 border border-white/10">
+              Click Untuk Ambil Promo
             </div>
           </div>
         </div>
       </div>
-    </section>
+
+      {/* Mobile Cards */}
+     <CardDiskonHero/>
+    </div>
+  </div>
+</section>
+
+
   )
 }
 
@@ -241,7 +269,7 @@ function PricingSection() {
       {/* Loop kategori */}
       <div className="space-y-12 max-w-5xl mx-auto">
         {categories.map((category, index) => (
-          <div key={index} className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+          <div key={index} className="bg-white rounded-2xl shadow-lg border border-gray-100 p-3">
             {/* Header kategori */}
             <div className="flex items-center gap-3 mb-4">
               <span className="text-2xl">{category.icon}</span>
@@ -255,9 +283,9 @@ function PricingSection() {
               <table className="w-full border border-gray-200 rounded-lg overflow-hidden">
                 <thead>
                   <tr className="bg-gradient-to-r from-blue-700 to-indigo-600 text-white">
-                    <th className="px-4 py-2 text-left font-medium">No</th>
-                    <th className="px-4 py-2 text-left font-medium">Nama Barang / Barang Yang Dicuciin</th>
-                    <th className="px-4 py-2 text-right font-medium">Harga</th>
+                    <th className="md:px-4 px-2 py-2 text-left font-medium">No</th>
+                    <th className="md:px-4 px-2 py-2 text-left font-medium">Nama Barang / Barang Yang Dicuciin</th>
+                    <th className="md:px-4 px-2 py-2 text-right font-medium">Harga</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -266,9 +294,9 @@ function PricingSection() {
                       key={i}
                       className="border-t border-gray-200 hover:bg-gray-50 transition-colors"
                     >
-                      <td className="px-4 py-2 text-gray-600">{i + 1}</td>
-                      <td className="px-4 py-2 text-gray-800">{item.name}</td>
-                      <td className="px-4 py-2 text-right font-semibold text-red-600">{item.price}</td>
+                      <td className="md:px-4 px-2 py-2 text-gray-600">{i + 1}</td>
+                      <td className="md:px-4 px-2 py-2 text-gray-800">{item.name}</td>
+                      <td className="md:px-4 px-2 py-2 text-right font-semibold text-red-600">{item.price}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -354,7 +382,7 @@ function TestimonialsSection() {
 
   return (
     <section id="testimoni" className="py-16 bg-gradient-to-br from-primary/5 to-secondary/5">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-4">Testimoni Pelanggan</h2>
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -373,7 +401,7 @@ function TestimonialsSection() {
                   ))}
                 </div>
                 <p className="text-muted-foreground mb-4 text-sm md:text-base italic">{testimonial.comment}</p>
-                <div className="absolute bottom-5 w-full pt-4">
+                <div className="absolute bottom-5 pt-4">
                   <p className="font-semibold text-foreground text-sm md:text-base">{testimonial.name}</p>
                   <p className="text-muted-foreground text-xs md:text-sm">{testimonial.location}</p>
                   <Badge variant="secondary" className="mt-2 text-xs">
@@ -402,7 +430,7 @@ function Footer() {
               <span className="text-xl font-bold">KITA CUCIIN</span>
             </div>
             <p className="text-primary-foreground/80 text-sm">
-              Layanan cuci sofa dan AC profesional dengan teknologi modern untuk rumah yang bersih dan sehat.
+            Sofa, kasur, karpet, kursi, mobil, dan aksesoris rumah tangga bersih, higienis, dan nyaman kembali
             </p>
           </div>
 

@@ -29,7 +29,7 @@ export function ServicesSection() {
         features: ["Steam cleaning", "Anti bakteri", "Leather care", "Cepat kering"],
       },
       {
-        id: "aksesoris",
+        id: "aksesories",
         icon: Package,
         title: "Cuci Aksesoris Rumah Tangga",
         description: "Perawatan berbagai aksesoris rumah tangga dari karpet, gorden, hingga stroller",

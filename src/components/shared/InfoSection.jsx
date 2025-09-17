@@ -24,18 +24,21 @@ function InfoSection() {
             <p className="text-gray-600 max-w-2xl mx-auto">
               Ketahui lebih lanjut tentang ketentuan, proses, dan komitmen kami
             </p>
-          </div>
-  
-          {/* Tab Navigation */}
-          <div className="flex justify-center mb-8 overflow-x-auto">
-            <div className="flex bg-white rounded-lg p-1 shadow-lg min-w-fit">
+          </div> 
+
+        <div className="flex justify-center mb-8">
+          <div className="relative max-md:w-full max-md:max-w-2xl mx-auto">
+            <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none opacity-0 md:opacity-100"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none opacity-0 md:opacity-100"></div>
+            
+            <div className="flex items-center px-2 rounded-lg p-1 shadow-lg overflow-x-auto scrollbar-hide">
               {tabs.map((tab) => {
                 const Icon = tab.icon
-                return (
+                return ( 
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center gap-2 px-4 md:px-6 py-3 rounded-md transition-all duration-300 whitespace-nowrap ${
+                    className={`flex items-center gap-2 px-4 md:px-6 py-3 rounded-md transition-all duration-300 whitespace-nowrap flex-shrink-0 ${
                       activeTab === tab.id ? "bg-blue-600 text-white shadow-md" : "text-gray-600 hover:text-blue-600"
                     }`}
                   >
@@ -46,6 +49,7 @@ function InfoSection() {
               })}
             </div>
           </div>
+        </div>
   
           {/* Tab Content */}
           <div className="max-w-4xl mx-auto">
@@ -54,7 +58,7 @@ function InfoSection() {
                 <CardContent className="p-6 md:p-8">
                   <div className="text-center mb-8">
                     <Badge className="bg-red-500 text-white px-6 py-2 text-lg font-bold rounded-full">KETENTUAN</Badge>
-                  </div>
+                  </div> 
   
                   <div className="space-y-4 md:space-y-6">
                     <div className="flex items-start gap-4 p-4 bg-blue-50 rounded-lg">
@@ -151,8 +155,8 @@ function InfoSection() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                     {[
                       { step: 1, title: "Vakum Debu", icon: "🌪️" },
-                      { step: 2, title: "Pencucian", icon: "🧽" },
-                      { step: 3, title: "Vakum Noda", icon: "🔧" },
+                      { step: 2, title: "Pencucian", icon: "🧼" },
+                      { step: 3, title: "Vakum Noda", icon: "" },
                       { step: 4, title: "Penetralan", icon: "🧪" },
                       { step: 5, title: "Pembilasan", icon: "💧" },
                       { step: 6, title: "Extrak Sisa Noda", icon: "✨" },
